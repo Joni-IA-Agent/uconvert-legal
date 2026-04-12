@@ -1,1 +1,15 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=terminos-y-condiciones/"></head><body></body></html>
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Auth Callback</title></head>
+<body>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if (code) {
+    document.write('<h2>Authorization code:</h2><p style="font-size:18px;word-break:break-all;background:#f0f0f0;padding:16px">' + code + '</p><p>Copiá este código.</p>');
+  } else {
+    window.location.href = 'terminos-y-condiciones/';
+  }
+</script>
+</body>
+</html>
