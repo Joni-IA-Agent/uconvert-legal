@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuevo cliente — UCONVERT MARKETING</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #000;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    .btn-back {
+      color: #aaa;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+    .btn-back:hover { color: #fff; }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .page-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    /* ── Form ── */
+    .form-card {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e8e8e8;
+      overflow: hidden;
+    }
+    .form-section {
+      padding: 28px 32px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .form-section:last-of-type { border-bottom: none; }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+    .field:last-child { margin-bottom: 0; }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+    label .required { color: #e03; margin-left: 2px; }
+    label .hint {
+      font-weight: 400;
+      color: #999;
+      font-size: 12px;
+      margin-left: 4px;
+    }
+    input[type="text"],
+    input[type="url"],
+    input[type="color"],
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 7px;
+      padding: 10px 12px;
+      font-size: 14px;
+      color: #1a1a1a;
+      background: #fff;
+      outline: none;
+      transition: border-color 0.15s;
+      font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #000;
+    }
+    textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .color-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .color-field input[type="color"] {
+      width: 44px;
+      height: 40px;
+      padding: 3px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .color-field input[type="text"] {
+      flex: 1;
+      font-family: monospace;
+    }
+
+    /* ── Form footer ── */
+    .form-footer {
+      padding: 24px 32px;
+      background: #fafafa;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn-cancel {
+      background: transparent;
+      color: #555;
+      border: 1px solid #ddd;
+      border-radius: 7px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: border-color 0.15s;
+    }
+    .btn-cancel:hover { border-color: #aaa; }
+    .btn-submit {
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-submit:hover { opacity: 0.82; }
+
+    /* ── Info banner ── */
+    .info-banner {
+      background: #fffbe6;
+      border: 1px solid #ffe066;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #7a5c00;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .info-banner strong { font-weight: 700; }
+
+    @media (max-width: 600px) {
+      header { padding: 0 20px; }
+      .page { padding: 28px 16px 60px; }
+      .form-section { padding: 22px 20px; }
+      .form-footer { padding: 18px 20px; flex-direction: column-reverse; }
+      .btn-cancel, .btn-submit { width: 100%; justify-content: center; }
+      .field-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html" class="header-brand">UCONVERT MARKETING</a>
+  <a href="../index.html" class="btn-back">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Volver
+  </a>
+</header>
+
+<main class="page">
+  <h1 class="page-title">Nuevo cliente</h1>
+  <p class="page-subtitle">Completá los datos del cliente para agregarlo al sistema de content planning</p>
+
+  <div class="info-banner">
+    <strong>Nota:</strong> Después de guardar, el context file se generará automáticamente en <code>.agents/</code>. Vas a poder completar los datos adicionales (ICP, competencia, ejes de contenido) desde Claude Code.
+  </div>
+
+  <form class="form-card" id="clientForm" onsubmit="handleSubmit(event)">
+
+    <!-- Empresa -->
+    <div class="form-section">
+      <div class="section-title">Empresa</div>
+
+      <div class="field">
+        <label>Nombre del cliente <span class="required">*</span></label>
+        <input type="text" name="name" placeholder="ej: VisandoAndo" required />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Industria <span class="required">*</span></label>
+          <input type="text" name="tagline" placeholder="ej: Derecho de Extranjería" required />
+        </div>
+        <div class="field">
+          <label>País</label>
+          <input type="text" name="country" placeholder="ej: Argentina" value="Argentina" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Qué hace / descripción breve</label>
+        <textarea name="description" placeholder="Describí brevemente el negocio del cliente…"></textarea>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Sitio web</label>
+          <input type="url" name="website" placeholder="https://ejemplo.com" />
+        </div>
+        <div class="field">
+          <label>¿Tiene e-commerce?</label>
+          <select name="ecommerce">
+            <option value="false">No</option>
+            <option value="true">Sí</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand Identity -->
+    <div class="form-section">
+      <div class="section-title">Brand Identity</div>
+
+      <div class="field">
+        <label>Logo <span class="hint">— URL del archivo (PNG con fondo transparente)</span></label>
+        <input type="url" name="logo" placeholder="https://ejemplo.com/logo.png" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Tipografía principal</label>
+          <input type="text" name="primaryFont" placeholder="ej: Plus Jakarta Sans" />
+        </div>
+        <div class="field">
+          <label>Tipografía secundaria</label>
+          <input type="text" name="secondaryFont" placeholder="ej: Playfair Display" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Color primario</label>
+          <div class="color-field">
+            <input type="color" name="primaryColorPicker" value="#000000"
+              oninput="document.querySelector('[name=primaryColor]').value=this.value" />
+            <input type="text" name="primaryColor" value="#000000" maxlength="7"
+              oninput="if(this.value.match(/^#[0-9a-fA-F]{6}$/)) document.querySelector('[name=primaryColorPicker]').value=this.value"
+              placeholder="#000000" style="font-family:monospace" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Color secundario</label>
+          <div class="color-field">
+            <input type="color" name="secondaryColorPicker" value="#ffffff"
+              oninput="document.querySelector('[name=secondaryColor]').value=this.value" />
+            <input type="text" name="secondaryColor" value="#ffffff" maxlength="7"
+              oninput="if(this.value.match(/^#[0-9a-fA-F]{6}$/)) document.querySelector('[name=secondaryColorPicker]').value=this.value"
+              placeholder="#ffffff" style="font-family:monospace" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Carpeta de assets <span class="hint">— Google Drive o Dropbox (opcional)</span></label>
+        <input type="url" name="assetsFolder" placeholder="https://drive.google.com/…" />
+      </div>
+    </div>
+
+    <!-- Redes sociales -->
+    <div class="form-section">
+      <div class="section-title">Redes sociales</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Instagram ID</label>
+          <input type="text" name="instagramId" placeholder="17841409008027926" />
+        </div>
+        <div class="field">
+          <label>Facebook Page ID</label>
+          <input type="text" name="facebookPageId" placeholder="443813222616424" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Handle de Instagram <span class="hint">— sin @</span></label>
+        <input type="text" name="instagram" placeholder="ej: visandoando" />
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <a href="../index.html" class="btn-cancel">Cancelar</a>
+      <button type="submit" class="btn-submit">Guardar cliente</button>
+    </div>
+
+  </form>
+</main>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    // Limpiar campos del color picker (duplicados)
+    delete data.primaryColorPicker;
+    delete data.secondaryColorPicker;
+
+    // Generar ID desde el nombre
+    data.id = data.name
+      .toLowerCase()
+      .replace(/[áàä]/g, 'a').replace(/[éèë]/g, 'e')
+      .replace(/[íìï]/g, 'i').replace(/[óòö]/g, 'o')
+      .replace(/[úùü]/g, 'u').replace(/ñ/g, 'n')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+    data.ecommerce = data.ecommerce === 'true';
+    data.active = true;
+    data.context_file = `product-marketing-context-${data.id}.md`;
+
+    // Mostrar el JSON generado (fase prototipo — en producción esto dispararía un GitHub Action)
+    const output = JSON.stringify(data, null, 2);
+    alert('Cliente generado. Próximo paso: agregar al clients.json y crear el context file.\n\n' + output);
+
+    // TODO: disparar GitHub Actions workflow_dispatch con data
+    // fetch('https://api.github.com/repos/ORG/REPO/actions/workflows/WORKFLOW.yml/dispatches', {
+    //   method: 'POST',
+    //   headers: { Authorization: `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ ref: 'main', inputs: data })
+    // });
+  }
+</script>
+
+</body>
+</html>

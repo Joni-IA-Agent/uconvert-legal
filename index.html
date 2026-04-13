@@ -1,15 +1,315 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Auth Callback</title></head>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Planner — UCONVERT MARKETING</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #000;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-add {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .btn-add:hover { opacity: 0.85; }
+    .btn-add svg { flex-shrink: 0; }
+
+    /* ── Page ── */
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .page-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 36px;
+    }
+
+    /* ── Client Grid ── */
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── Client Card ── */
+    .client-card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e8e8e8;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .client-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      transform: translateY(-2px);
+    }
+    .card-accent {
+      height: 5px;
+    }
+    .card-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .card-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #f5f5f5;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .card-logo-fallback {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .card-info {}
+    .card-name {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .card-tagline {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: #f0f0f0;
+      color: #555;
+    }
+    .badge-active {
+      background: #e6f7ee;
+      color: #1a7a42;
+    }
+
+    .card-footer {
+      padding: 0 24px 20px;
+      display: flex;
+      gap: 8px;
+    }
+    .btn-primary {
+      flex: 1;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-primary:hover { opacity: 0.82; }
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .btn-secondary:hover { background: #e0e0e0; }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center;
+      padding: 80px 24px;
+      color: #888;
+    }
+    .empty h3 { font-size: 18px; margin-bottom: 8px; color: #333; }
+    .empty p { font-size: 14px; }
+
+    /* ── Loading ── */
+    .loading {
+      text-align: center;
+      padding: 60px 24px;
+      color: #888;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 0 20px; }
+      .page { padding: 32px 16px 60px; }
+    }
+  </style>
+</head>
 <body>
+
+<header>
+  <span class="header-brand">UCONVERT MARKETING</span>
+  <div class="header-actions">
+    <a href="app/client-new.html" class="btn-add">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M7 1v12M1 7h12" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      Agregar cliente
+    </a>
+  </div>
+</header>
+
+<main class="page">
+  <h1 class="page-title">Clientes</h1>
+  <p class="page-subtitle">Seleccioná un cliente para correr el content planner mensual</p>
+
+  <div class="clients-grid" id="clientsGrid">
+    <div class="loading">Cargando clientes…</div>
+  </div>
+</main>
+
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  if (code) {
-    document.write('<h2>Authorization code:</h2><p style="font-size:18px;word-break:break-all;background:#f0f0f0;padding:16px">' + code + '</p><p>Copiá este código.</p>');
-  } else {
-    window.location.href = 'terminos-y-condiciones/';
+  async function loadClients() {
+    const grid = document.getElementById('clientsGrid');
+    try {
+      const res = await fetch('clients.json');
+      const clients = await res.json();
+
+      if (!clients.length) {
+        grid.innerHTML = `
+          <div class="empty">
+            <h3>No hay clientes aún</h3>
+            <p>Agregá tu primer cliente para empezar.</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = clients.map(client => buildCard(client)).join('');
+    } catch (e) {
+      grid.innerHTML = `<div class="empty"><h3>Error al cargar clientes</h3><p>${e.message}</p></div>`;
+    }
   }
+
+  function buildCard(client) {
+    const initial = client.name.charAt(0).toUpperCase();
+    const logoHtml = client.logo
+      ? `<img class="card-logo" src="${client.logo}" alt="${client.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        + `<div class="card-logo-fallback" style="display:none;color:${client.primaryColor}">${initial}</div>`
+      : `<div class="card-logo-fallback" style="color:${client.primaryColor}">${initial}</div>`;
+
+    return `
+      <article class="client-card">
+        <div class="card-accent" style="background:${client.primaryColor}"></div>
+        <div class="card-body">
+          <div class="card-header">
+            ${logoHtml}
+            <div class="card-info">
+              <div class="card-name">${client.name}</div>
+              <div class="card-tagline">${client.tagline || ''}</div>
+            </div>
+          </div>
+          <div class="card-meta">
+            ${client.active ? '<span class="badge badge-active">Activo</span>' : '<span class="badge">Inactivo</span>'}
+            ${client.instagram ? `<span class="badge">@${client.instagram}</span>` : ''}
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="app/client-run.html?id=${client.id}" class="btn-primary">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M3 2l8 4.5L3 11V2z" fill="#fff"/>
+            </svg>
+            Correr planner
+          </a>
+          <a href="app/client-edit.html?id=${client.id}" class="btn-secondary" title="Editar cliente">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M9.5 1.5l3 3L4 13H1v-3L9.5 1.5z" stroke="#333" stroke-width="1.4" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </article>`;
+  }
+
+  loadClients();
 </script>
+
 </body>
 </html>

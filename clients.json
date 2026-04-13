@@ -1,0 +1,22 @@
+[
+  {
+    "id": "visando-ando",
+    "name": "VisandoAndo",
+    "tagline": "Derecho de Extranjería",
+    "logo": "https://www.visandoando.com/wp-content/uploads/2023/12/Logo-Visando-Ando-Webp-Compress.webp",
+    "primaryColor": "#F73701",
+    "context_file": "product-marketing-context-visando-ando.md",
+    "instagram": "visandoando",
+    "active": true
+  },
+  {
+    "id": "charming-dreams",
+    "name": "Charming Dreams",
+    "tagline": "Ropa de cama & textiles premium",
+    "logo": "assets/logos/charming-dreams.png",
+    "primaryColor": "#4b504d",
+    "context_file": "product-marketing-context-charming-dreams.md",
+    "instagram": "charmingdreams.ar",
+    "active": true
+  }
+]
